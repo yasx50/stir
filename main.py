@@ -5,12 +5,23 @@ from model import TrendData
 
 
 from selenium import webdriver
+from selenium.webdriver.chrome.options import Options
+from webdriver_manager.chrome import ChromeDriverManager
+from selenium.webdriver.chrome.service import Service  
 import datetime
 import time
 
 
 
-driver = webdriver.Chrome( )
+chrome_options = Options()
+# chrome_options.add_argument("--headless")  # Run in headless mode
+chrome_options.add_argument("--no-sandbox")  # Disable sandbox
+chrome_options.add_argument("--disable-dev-shm-usage")  # Prevent shared memory issues
+chrome_options.add_argument("--disable-gpu")  # Disable GPU
+
+# Initialize Chrome WebDriver
+driver = webdriver.Chrome( options=chrome_options)
+
 
 login(driver)
 
@@ -28,7 +39,7 @@ trend_entry = TrendData(
     ip_address="192.168.1.1"
 )
 
-trend_entry.save()  # Save the document to MongoDB
+# trend_entry.save()  # Save the document to MongoDB
 
 
 driver.quit()
