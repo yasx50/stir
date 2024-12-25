@@ -1,4 +1,4 @@
-from mongoengine import Document, StringField, DateTimeField, IntField, UniqueConstraint
+from mongoengine import Document, StringField, DateTimeField
 from datetime import datetime
 
 class TrendData(Document):
@@ -14,7 +14,7 @@ class TrendData(Document):
 
     meta = {
         'indexes': [
-            {'fields': ['unique_id'], 'unique': True}  # Ensuring unique ID
+            'unique_id',  # This ensures a unique index is created for 'unique_id'
         ]
     }
 

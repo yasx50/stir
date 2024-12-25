@@ -17,7 +17,7 @@ def getdata(driver):
 
 
     trending_section = WebDriverWait(driver, 10).until(
-        EC.presence_of_element_located((By.XPATH, "//section[@aria-labelledby='accessible-list-2']"))
+        EC.presence_of_element_located((By.ID, "react-root"))
     )
 
     
