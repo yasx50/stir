@@ -20,8 +20,8 @@ chrome_options.add_argument("--disable-gpu")  # Disable GPU
 
 # Function to run the main script and fetch data
 def mainScript():
-    driver = webdriver.Chrome(options=chrome_options)
-    
+    driver = webdriver.Chrome(executable_path=ChromeDriverManager().install(), options=chrome_options)
+
     # Assuming 'login' and 'getdata' are properly defined functions
     login(driver)
     getdata(driver)  # Fetch the data and store it in the DB
