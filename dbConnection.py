@@ -1,16 +1,20 @@
 from mongoengine import connect, Document, StringField
 from pymongo import MongoClient
+import os
 
 DB_NAME = "STIR"
+
+# MongoDB Atlas URI
+ATLAS_URI =os.getenv("ATLAS_URI")
 
 # Connect to MongoDB using mongoengine
 def connectDB():
     try:
-        # Connect to the local MongoDB instance
-        connect(DB_NAME, host="mongodb://localhost:27017/")
+        # Connect to the MongoDB Atlas instance
+        connect(DB_NAME, host=ATLAS_URI)
         
         # Access the database using MongoClient (optional for verification)
-        client = MongoClient("mongodb://localhost:27017/")
+        client = MongoClient(ATLAS_URI)
         db = client[DB_NAME]
         
         # Print the available collections in the database to verify connection
