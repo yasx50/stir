@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Trending Data</title>
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+</head>
+<body>
+    <h1>Trending Data</h1>
+    <div id="trend-data">
+        <p id="trend1">Trend 1: </p>
+        <p id="trend2">Trend 2: </p>
+        <p id="trend3">Trend 3: </p>
+        <p id="trend4">Trend 4: </p>
+        <p id="trend5">Trend 5: </p>
+    </div>
+
+    <button id="run-script">Run Script</button>
+    <button id="run-again">Run Again</button>
+
+    <script>
+        $(document).ready(function() {
+            // Fetch and display data when Run Script button is clicked
+            $('#run-script').click(function() {
+                $.post('/run_script', function(data) {
+                    // Display data
+                    $('#trend1').text('Trend 1: ' + data.trend1);
+                    $('#trend2').text('Trend 2: ' + data.trend2);
+                    $('#trend3').text('Trend 3: ' + data.trend3);
+                    $('#trend4').text('Trend 4: ' + data.trend4);
+                    $('#trend5').text('Trend 5: ' + data.trend5);
+                });
+            });
+
+            // Re-run the script when Run Again button is clicked
+            $('#run-again').click(function() {
+                $.post('/run_again', function(data) {
+                    // Display data
+                    $('#trend1').text('Trend 1: ' + data.trend1);
+                    $('#trend2').text('Trend 2: ' + data.trend2);
+                    $('#trend3').text('Trend 3: ' + data.trend3);
+                    $('#trend4').text('Trend 4: ' + data.trend4);
+                    $('#trend5').text('Trend 5: ' + data.trend5);
+                });
+            });
+        });
+    </script>
+</body>
+</html>
