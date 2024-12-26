@@ -1,1 +1,0 @@
-#react-root > div > div > div.css-175oi2r.r-1f2l425.r-13qz1uu.r-417010 > main > div > div > div > div > div > div > div > section > div > div > div:nth-child(2) > div > div > div
