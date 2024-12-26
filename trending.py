@@ -11,16 +11,30 @@ def getdata(driver):
     # Wait for the trending section to load (dynamic content)
     try:
         # Wait until the trending section is visible on the page
-        trending_section = WebDriverWait(driver, 20).until(
+        WebDriverWait(driver, 10).until(
             EC.presence_of_element_located((By.XPATH, '//div[@data-testid="trend"]'))
         )
 
-        # Find the trending topics inside the section
-        trending_topics = trending_section.find_elements(By.XPATH, './/div[contains(@style, "text-overflow: unset; color: rgb(231, 233, 234);")]/span')
+        # Find all trending topic elements (hashtags or topics)
+        trending_elements = driver.find_elements(By.XPATH, '//div[@data-testid="trend"]//span[@dir="ltr"]')
 
-        # Print the top 5 trending topics
-        for idx, topic in enumerate(trending_topics[:5], 1):
-            print(f"Trending #{idx}: {topic.text}")
+        # Ensure we capture 5 trends, if available
+        trends_to_show = trending_elements[:5]  # Get only the first 5 trends
+
+        # Loop through and print the first 5 trending elements
+        for idx, trend in enumerate(trends_to_show, 1):
+            try:
+                # Extract the topic name (Hashtag or phrase)
+                topic = trend.text
+
+                # Print the trending topic
+                print(f"Trending #{idx}: {topic}")
+            except Exception as e:
+                print(f"Error parsing trend #{idx}: {str(e)}")
+
+        # If there are fewer than 5 trends, print a message indicating this
+        if len(trends_to_show) < 5:
+            print(f"Only {len(trends_to_show)} trending topics found.")
 
     except Exception as e:
         print(f"Error while fetching data: {str(e)}")
