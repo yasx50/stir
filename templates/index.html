@@ -4,27 +4,45 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Trending Data</title>
+    <link rel="stylesheet" href="/static/styles.css">
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 </head>
 <body>
-    <h1>Trending Data</h1>
+    <header>
+        <h1>Trending Data</h1>
+        <a href="https://yash50.me" target="_blank" class="website-link">Visit My Website</a>
+    </header>
     <div id="trend-data">
-        <p id="trend1">Trend 1: </p>
-        <p id="trend2">Trend 2: </p>
-        <p id="trend3">Trend 3: </p>
-        <p id="trend4">Trend 4: </p>
-        <p id="trend5">Trend 5: </p>
+        <div class="trend">
+            <!-- <img src="automation1.jpg" alt="Automation Trend 1" class="trend-image"> -->
+            <p id="trend1">Trend 1: </p>
+        </div>
+        <div class="trend">
+            <!-- <img src="automation2.jpg" alt="Automation Trend 2" class="trend-image"> -->
+            <p id="trend2">Trend 2: </p>
+        </div>
+        <div class="trend">
+            <!-- <img src="automation3.jpg" alt="Automation Trend 3" class="trend-image"> -->
+            <p id="trend3">Trend 3: </p>
+        </div>
+        <div class="trend">
+            <!-- <img src="automation4.jpg" alt="Automation Trend 4" class="trend-image"> -->
+            <p id="trend4">Trend 4: </p>
+        </div>
+        <div class="trend">
+            <!-- <img src="automation5.jpg" alt="Automation Trend 5" class="trend-image"> -->
+            <p id="trend5">Trend 5: </p>
+        </div>
     </div>
-
-    <button id="run-script">Run Script</button>
-    <button id="run-again">Run Again</button>
+    <div class="button-container">
+        <button id="run-script">Run Script</button>
+        <button id="run-again">Run Again</button>
+    </div>
 
     <script>
         $(document).ready(function() {
-            // Fetch and display data when Run Script button is clicked
             $('#run-script').click(function() {
                 $.post('/run_script', function(data) {
-                    // Display data
                     $('#trend1').text('Trend 1: ' + data.trend1);
                     $('#trend2').text('Trend 2: ' + data.trend2);
                     $('#trend3').text('Trend 3: ' + data.trend3);
@@ -33,10 +51,8 @@
                 });
             });
 
-            // Re-run the script when Run Again button is clicked
             $('#run-again').click(function() {
                 $.post('/run_again', function(data) {
-                    // Display data
                     $('#trend1').text('Trend 1: ' + data.trend1);
                     $('#trend2').text('Trend 2: ' + data.trend2);
                     $('#trend3').text('Trend 3: ' + data.trend3);
