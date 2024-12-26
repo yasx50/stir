@@ -36,5 +36,8 @@ COPY . /app/
 # Set environment variable to use headless mode
 ENV DISPLAY=:99
 
-# Run your Python application
-CMD ["python", "app.py"]
+# Expose the port your app will run on
+EXPOSE 5000
+
+# Run your Python application with gunicorn
+CMD ["gunicorn", "-b", "0.0.0.0:5000", "app:app"]
