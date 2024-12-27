@@ -18,24 +18,18 @@ chrome_options.add_argument("--no-sandbox")  # Disable sandbox
 chrome_options.add_argument("--disable-dev-shm-usage")  # Prevent shared memory issues
 chrome_options.add_argument("--disable-gpu")  # Disable GPU
 
-# Function to run the main script and fetch data
 def mainScript():
-    # Use the Service object to specify the path to ChromeDriver
     service = Service(ChromeDriverManager().install())
     
-    # Initialize the driver with the service object
     driver = webdriver.Chrome(service=service, options=chrome_options)
 
-    # Assuming 'login' and 'getdata' are properly defined functions
     login(driver)
-    getdata(driver)  # Fetch the data and store it in the DB
+    getdata(driver)  
     
-    driver.quit()  # Close the browser after the task is done# Close the browser after the task is done
+    driver.quit()  
 
-# Function to get the data from the database
 def run_script():
-    mainScript()  # Run the Selenium script
-    # Fetch the latest data from DB
+    mainScript() 
     trends = TrendData.objects.order_by('-end_time').first()
     if trends:
         return {
