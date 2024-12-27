@@ -21,7 +21,7 @@ chrome_options.add_argument("--disable-gpu")  # Disable GPU
 def mainScript():
     service = Service(ChromeDriverManager().install())
     
-    driver = webdriver.Chrome(service=service, options=chrome_options)
+    driver = webdriver.Chrome(options=chrome_options)
 
     login(driver)
     getdata(driver)  
@@ -29,15 +29,19 @@ def mainScript():
     driver.quit()  
 
 def run_script():
-    mainScript() 
-    trends = TrendData.objects.order_by('-end_time').first()
-    if trends:
+    mainScript()
+    latest_trend = TrendData.objects.order_by('-end_time').first()
+
+    if latest_trend:
         return {
-            "trend1": trends.trend1,
-            "trend2": trends.trend2,
-            "trend3": trends.trend3,
-            "trend4": trends.trend4,
-            "trend5": trends.trend5,
+            "trend1": latest_trend.trend1,
+            "trend2": latest_trend.trend2,
+            "trend3": latest_trend.trend3,
+            "trend4": latest_trend.trend4,
+            "trend5": latest_trend.trend5,
+            "end_time": latest_trend.end_time.strftime('%Y-%m-%d %H:%M:%S'),
+            "ip_address": latest_trend.ip_address,
+            "unique_id": latest_trend.unique_id
         }
     return {"message": "No data found"}
 
@@ -47,13 +51,13 @@ def index():
 
 @app.route('/run_script', methods=['POST'])
 def run_script_endpoint():
-    # Run the script and get the data from DB
+
     data = run_script()
     return jsonify(data)
 
 @app.route('/run_again', methods=['POST'])
 def run_again_endpoint():
-    # Re-run the script and fetch updated data
+    
     data = run_script()
     return jsonify(data)
 

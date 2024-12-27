@@ -6,59 +6,82 @@
     <title>Trending Data</title>
     <link rel="stylesheet" href="/static/styles.css">
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <style>
+        /* Loader styling */
+        #loader {
+            display: none;
+            border: 4px solid #f3f3f3; /* Light gray */
+            border-top: 4px solid #3498db; /* Blue */
+            border-radius: 50%;
+            width: 30px;
+            height: 30px;
+            animation: spin 1s linear infinite;
+            margin: 10px auto;
+        }
+
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+
+        .hidden {
+            display: none;
+        }
+    </style>
 </head>
 <body>
     <header>
         <h1>Trending Data</h1>
-        <a href="https://yash50.me" target="_blank" class="website-link">Visit My Website</a>
     </header>
     <div id="trend-data">
-        <div class="trend">
-            <!-- <img src="automation1.jpg" alt="Automation Trend 1" class="trend-image"> -->
-            <p id="trend1">Trend 1: </p>
-        </div>
-        <div class="trend">
-            <!-- <img src="automation2.jpg" alt="Automation Trend 2" class="trend-image"> -->
-            <p id="trend2">Trend 2: </p>
-        </div>
-        <div class="trend">
-            <!-- <img src="automation3.jpg" alt="Automation Trend 3" class="trend-image"> -->
-            <p id="trend3">Trend 3: </p>
-        </div>
-        <div class="trend">
-            <!-- <img src="automation4.jpg" alt="Automation Trend 4" class="trend-image"> -->
-            <p id="trend4">Trend 4: </p>
-        </div>
-        <div class="trend">
-            <!-- <img src="automation5.jpg" alt="Automation Trend 5" class="trend-image"> -->
-            <p id="trend5">Trend 5: </p>
-        </div>
+        <p id="capture-time">Captured At: </p>
+        <p id="ip-address">IP Address: </p>
+        <div class="trend" id="trend1">Trend 1: </div>
+        <div class="trend" id="trend2">Trend 2: </div>
+        <div class="trend" id="trend3">Trend 3: </div>
+        <div class="trend" id="trend4">Trend 4: </div>
+        <div class="trend" id="trend5">Trend 5: </div>
+        <pre id="json-output" style="background: #f4f4f4; padding: 10px;"></pre>
     </div>
     <div class="button-container">
         <button id="run-script">Run Script</button>
         <button id="run-again">Run Again</button>
     </div>
+    <!-- Loader -->
+    <div id="loader"></div>
 
     <script>
         $(document).ready(function() {
-            $('#run-script').click(function() {
-                $.post('/run_script', function(data) {
+            function updateData(endpoint) {
+                // Show loader and hide current data while waiting for a response
+                $('#loader').show();
+                $('#trend-data').addClass('hidden');
+
+                $.post(endpoint, function(data) {
+                    // Populate data once the response is received
+                    $('#capture-time').text('Captured At: ' + data.end_time);
+                    $('#ip-address').text('IP Address: ' + data.ip_address);
                     $('#trend1').text('Trend 1: ' + data.trend1);
                     $('#trend2').text('Trend 2: ' + data.trend2);
                     $('#trend3').text('Trend 3: ' + data.trend3);
                     $('#trend4').text('Trend 4: ' + data.trend4);
                     $('#trend5').text('Trend 5: ' + data.trend5);
+                    $('#json-output').text(JSON.stringify(data, null, 4));
+                }).fail(function() {
+                    alert('Error fetching data from the server.');
+                }).always(function() {
+                    // Hide loader and show data after response
+                    $('#loader').hide();
+                    $('#trend-data').removeClass('hidden');
                 });
+            }
+
+            $('#run-script').click(function() {
+                updateData('/run_script');
             });
 
             $('#run-again').click(function() {
-                $.post('/run_again', function(data) {
-                    $('#trend1').text('Trend 1: ' + data.trend1);
-                    $('#trend2').text('Trend 2: ' + data.trend2);
-                    $('#trend3').text('Trend 3: ' + data.trend3);
-                    $('#trend4').text('Trend 4: ' + data.trend4);
-                    $('#trend5').text('Trend 5: ' + data.trend5);
-                });
+                updateData('/run_again');
             });
         });
     </script>
